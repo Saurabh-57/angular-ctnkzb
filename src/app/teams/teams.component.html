@@ -1,0 +1,49 @@
+<div class="container-fluid drop">
+    <form>
+        <select class="form-select" id="sel1" name="sellist1" [(ngModel)]="dropdownSelected">
+            <option *ngFor="let item of teams" [value]="item?.id">{{item?.full_name}}</option>
+        </select>
+
+    </form>
+    <button type="button" class="btn btn-primary" (click)="track()">Track team</button>
+
+    <ng-container *ngIf="teamsSelected?.length > 0">
+        <div class="row">
+            <div class="col-3" *ngFor="let item of teamsSelected ; let index=index;">
+                <div class="card">
+                    <div class="card-header">
+                        <div>{{headerInfo[index]?.full_name}} [{{headerInfo[index]?.abbreviation}}]</div>
+                        <div>{{headerInfo[index]?.conference}}ern conference</div>
+                        <button type="button" class="close" aria-label="Close" (click)="delete(index)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <div>Results of past 12 days</div>
+                                <ng-container *ngFor="let match of item">
+                                    <span class="dot"
+                                        [ngStyle]="{ 'background': match.home_team_score > match.visitor_team_score ? 'green' : 'red' }">
+                                        {{match.home_team_score > match.visitor_team_score ? 'W' : 'L' }}</span>
+                                </ng-container>
+                                <div>Avg pts scored: {{getAverage(item, 'home_team_score')}}</div>
+                                <div>Avg pts conceded: {{getAverage(item, 'visitor_team_score')}}</div>
+
+                            </div>
+                            <div class="col-4">
+                                <img src='{{ "assets/images/" + headerInfo[index]?.abbreviation + ".png" }}'
+                                    alt="logo" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" (click)="goToResults(headerInfo[index].id)">See game Results >></button>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+</div>
