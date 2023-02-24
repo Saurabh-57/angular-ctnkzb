@@ -1,6 +1,7 @@
 export interface Teams {
     data: ITeams[];
     id: number;
+    full_name: string;
 }
 
 interface ITeams {
